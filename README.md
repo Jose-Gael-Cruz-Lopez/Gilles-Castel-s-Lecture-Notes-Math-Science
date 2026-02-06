@@ -1,148 +1,262 @@
 # LaTeX Lecture Notes Template
 
-A complete LaTeX setup for taking beautiful math/science lecture notes, inspired by [Gilles Castel's lecture notes workflow](https://castel.dev/post/lecture-notes-1/).
+A complete LaTeX setup for taking beautiful math/science lecture notes in VS Code, inspired by [Gilles Castel's lecture notes workflow](https://castel.dev/post/lecture-notes-1/).
 
-This template gives you:
-- Boxed theorem/definition/lemma/proposition environments
+**What you get:**
+- Boxed theorem, definition, lemma, and proposition environments
 - Commutative diagrams, function plots, and geometric figures via TikZ
 - Inkscape figure integration for hand-drawn diagrams
 - Correction boxes, note boxes, and important-highlight boxes
 - Fancy headers with lecture number and date in the margin
 - Common math shortcuts (`\R`, `\Z`, `\Q`, `\N`, `\C`, `\implies`, etc.)
+- Live PDF preview inside VS Code that updates every time you save
 
 ---
 
-## Setup on macOS (Step by Step)
+## macOS Setup (Primary — VS Code)
 
-You already ran `brew install --cask mactex`. Follow every step below in order.
+Follow every step in order. Do not skip any step.
 
-### Step 1: Make LaTeX available in your terminal
+### Step 1: Install Homebrew
 
-MacTeX installs to `/Library/TeX/texbin/` but your shell may not see it yet. **Close your terminal and open a brand new one**, then check:
+Homebrew is the package manager for macOS. Open **Terminal** (press `Cmd + Space`, type `Terminal`, press Enter) and paste:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
+
+It will ask for your Mac password (you won't see characters as you type — that's normal). Press Enter and wait for it to finish.
+
+When it's done, it may print a "Next steps" section telling you to run two commands. **Run those commands.** They look something like:
+
+```bash
+echo >> ~/.zprofile
+echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
+```
+
+Verify Homebrew is installed:
+
+```bash
+brew --version
+```
+
+It should print something like `Homebrew 4.x.x`. If it says `command not found`, close your terminal, open a new one, and try again.
+
+### Step 2: Install Git
+
+Git lets you download this repository. It may already be installed on your Mac.
+
+```bash
+git --version
+```
+
+If it prints a version number, skip ahead. If it asks you to install Xcode Command Line Tools, click **Install** in the popup and wait for it to finish. Then run `git --version` again to confirm.
+
+If nothing happened, install it manually:
+
+```bash
+xcode-select --install
+```
+
+### Step 3: Install MacTeX (the LaTeX compiler)
+
+This is the program that turns `.tex` files into PDFs. It's a large download (~4 GB) so it will take a few minutes.
+
+```bash
+brew install --cask mactex
+```
+
+Wait for it to finish completely.
+
+**IMPORTANT:** After it finishes, **close your terminal and open a brand new one.** This is required so your shell can find the newly installed LaTeX commands.
+
+In the new terminal, verify:
 
 ```bash
 pdflatex --version
 ```
 
-If it prints version info, skip to Step 2. If it says `command not found`, add it to your PATH manually:
+It should print version info like `pdfTeX 3.x...`. If it says `command not found`, run:
 
 ```bash
-# For zsh (default on modern macOS):
+# For zsh (default on modern macOS — your terminal prompt ends with %)
 echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.zshrc
 source ~/.zshrc
 
-# For bash:
+# For bash (your terminal prompt ends with $)
 echo 'export PATH="/Library/TeX/texbin:$PATH"' >> ~/.bash_profile
 source ~/.bash_profile
 ```
 
-Verify everything works:
+Then verify again:
 
 ```bash
 pdflatex --version
 latexmk --version
 ```
 
-Both commands should print version information. If `latexmk` is missing, install it:
+Both should print version info. If `latexmk` is missing:
 
 ```bash
 sudo tlmgr install latexmk
 ```
 
-### Step 2: Install Inkscape (for hand-drawn diagrams)
+### Step 4: Install VS Code
 
-This is optional but needed if you want to draw figures like Castel does.
+```bash
+brew install --cask visual-studio-code
+```
+
+After install, open VS Code from your Applications folder (or press `Cmd + Space`, type `Visual Studio Code`, press Enter).
+
+Verify you can open VS Code from the terminal:
+
+```bash
+code --version
+```
+
+If it says `command not found`:
+1. Open VS Code
+2. Press `Cmd + Shift + P`
+3. Type `shell command`
+4. Click **"Shell Command: Install 'code' command in PATH"**
+5. Close and reopen your terminal
+
+### Step 5: Install the LaTeX Workshop extension in VS Code
+
+This extension gives you syntax highlighting, auto-compilation, and a built-in PDF viewer.
+
+```bash
+code --install-extension James-Yu.latex-workshop
+```
+
+Or install it manually:
+1. Open VS Code
+2. Click the **Extensions** icon in the left sidebar (or press `Cmd + Shift + X`)
+3. Search for **"LaTeX Workshop"**
+4. Click **Install** on the one by James Yu
+
+### Step 6: Clone this repository
+
+```bash
+cd ~/Documents
+git clone https://github.com/Jose-Gael-Cruz-Lopez/Gilles-Castel-s-Lecture-Notes-Math-Science-.git
+```
+
+### Step 7: Open the project in VS Code
+
+```bash
+code ~/Documents/Gilles-Castel-s-Lecture-Notes-Math-Science-
+```
+
+VS Code will open with the project files in the sidebar.
+
+### Step 8: Compile the template for the first time
+
+In VS Code:
+
+1. In the sidebar, click on `course-template` to expand it
+2. Click on `master.tex` to open it
+3. The LaTeX Workshop extension will detect this is a LaTeX file. **Press `Cmd + S` to save** (even if you haven't changed anything) — this triggers compilation
+4. You will see a spinning icon in the bottom status bar while it compiles
+
+Or compile from the terminal (inside VS Code, press `` Ctrl + ` `` to open the built-in terminal):
+
+```bash
+cd ~/Documents/Gilles-Castel-s-Lecture-Notes-Math-Science-/course-template
+make
+```
+
+### Step 9: View the PDF inside VS Code
+
+After compilation finishes:
+
+1. With `master.tex` still open, click the **"View LaTeX PDF"** button in the top-right corner of the editor (it looks like a magnifying glass over a page)
+2. Or press `Cmd + Shift + P`, type `latex pdf`, and click **"LaTeX Workshop: View LaTeX PDF file"**
+
+The PDF will open in a tab right next to your `.tex` file. **Every time you save (`Cmd + S`), the PDF updates automatically.**
+
+**Recommended layout:** Drag the PDF tab to the right side of the editor so you have `.tex` on the left and PDF on the right.
+
+### Step 10: Personalize the template
+
+1. Open `course-template/master.tex` and change:
+   ```latex
+   \title{Your Course Title}
+   \author{Your Name}
+   \date{Spring 2025}
+   ```
+2. Open `course-template/lec_01.tex` — this is the example lecture. Delete its contents and start writing your own notes, or keep it as a reference.
+3. To add a new lecture, create a new file (e.g., `lec_02.tex`) and add this line in `master.tex`:
+   ```latex
+   \input{lec_02.tex}
+   ```
+4. Start each lecture file with:
+   ```latex
+   \lecture{2}{Wed 05 Feb 2025 14:00}{Subgroups and Cosets}
+   ```
+
+### Step 11: Install Inkscape (optional — for hand-drawn diagrams)
+
+Only needed if you want to draw figures by hand like Castel does. You can skip this and use TikZ code diagrams only.
 
 ```bash
 brew install --cask inkscape
 ```
 
-After install, verify:
+Verify:
 
 ```bash
 inkscape --version
 ```
 
-### Step 3: Install a PDF viewer that auto-refreshes
+### Step 12: Create a new course (optional)
 
-When you save your `.tex` file, you want the PDF to update live. The built-in Preview app does NOT do this. Install Skim:
-
-```bash
-brew install --cask skim
-```
-
-Then configure Skim to auto-reload:
-1. Open Skim
-2. Go to **Skim > Settings** (or `Cmd+,`)
-3. Click the **Sync** tab
-4. Check **"Check for file changes"**
-5. Select **"Reload automatically"**
-
-### Step 4: Clone this repository
+To start a separate set of notes for another class, just copy the template folder:
 
 ```bash
-cd ~/Documents   # or wherever you keep your projects
-git clone https://github.com/Jose-Gael-Cruz-Lopez/Gilles-Castel-s-Lecture-Notes-Math-Science-.git
-cd Gilles-Castel-s-Lecture-Notes-Math-Science-
+cp -r ~/Documents/Gilles-Castel-s-Lecture-Notes-Math-Science-/course-template/ ~/Documents/my-algebra-course/
+code ~/Documents/my-algebra-course/
 ```
 
-### Step 5: Compile the template for the first time
+---
 
-```bash
-cd course-template
-make
+## VS Code Settings for LaTeX (Recommended)
+
+After installing LaTeX Workshop, add these settings for the best experience. In VS Code, press `Cmd + Shift + P` (macOS) or `Ctrl + Shift + P` (Windows/Linux), type `settings json`, click **"Preferences: Open User Settings (JSON)"**, and add:
+
+```json
+{
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "pdflatex x2",
+            "tools": ["pdflatex", "pdflatex"]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "pdflatex",
+            "command": "pdflatex",
+            "args": [
+                "-interaction=nonstopmode",
+                "-shell-escape",
+                "%DOC%"
+            ]
+        }
+    ],
+    "latex-workshop.view.pdf.viewer": "tab",
+    "editor.wordWrap": "on",
+    "editor.minimap.enabled": false
+}
 ```
 
-This runs `pdflatex` twice (needed for table of contents and cross-references). You should see output scrolling by and it should end without errors.
-
-If `make` is not found, install Xcode command line tools first:
-
-```bash
-xcode-select --install
-```
-
-Then run `make` again.
-
-### Step 6: Open the PDF
-
-```bash
-open -a Skim master.pdf
-```
-
-You should see a multi-page PDF with definitions, theorems, TikZ diagrams, commutative diagrams, function plots, and vector fields. This is the example lecture.
-
-### Step 7: Start live-editing
-
-Open a second terminal tab/window and run:
-
-```bash
-cd ~/Documents/Gilles-Castel-s-Lecture-Notes-Math-Science-/course-template
-make watch
-```
-
-This watches for file changes and recompiles automatically. Now open a `.tex` file in your editor, make a change, save -- Skim will update within a few seconds.
-
-### Step 8: Personalize the template
-
-1. Open `master.tex` and change `\title`, `\author`, and `\date`
-2. Edit `lec_01.tex` (the example lecture) or delete its content and start fresh
-3. To add more lectures, create `lec_02.tex`, `lec_03.tex`, etc. and add `\input{lec_02.tex}` lines in `master.tex`
-4. Each lecture starts with:
-   ```latex
-   \lecture{2}{Wed 05 Feb 2025 14:00}{Subgroups and Cosets}
-   ```
-   This creates a heading and puts the date in the margin.
-
-### Step 9: Create a new course (optional)
-
-To start a separate set of notes for another class:
-
-```bash
-cp -r course-template/ my-algebra-course/
-cd my-algebra-course/
-# Edit master.tex, start writing lec_01.tex
-make watch
-```
+This configures:
+- Auto-compile on save
+- Use `pdflatex` (run twice for references/TOC)
+- Show PDF in a VS Code tab
+- Word wrap for long LaTeX lines
 
 ---
 
@@ -153,59 +267,225 @@ Close ALL terminal windows and open a fresh one. If still broken, run:
 ```bash
 eval "$(/usr/libexec/path_helper)"
 ```
-or add the PATH manually as shown in Step 1.
+or add the PATH manually as shown in Step 3.
 
 **`make: command not found`:**
 ```bash
 xcode-select --install
 ```
 
+**`brew: command not found`:**
+You skipped Step 1. Go back and install Homebrew.
+
+**VS Code says "Recipe terminated with error":**
+Open the terminal in VS Code (`` Ctrl + ` ``) and run:
+```bash
+cd course-template
+pdflatex -interaction=nonstopmode -shell-escape master.tex
+```
+Read the error output. The most common issue is a missing package — see below.
+
 **Missing LaTeX package errors (e.g., `! LaTeX Error: File 'stmaryrd.sty' not found`):**
-MacTeX Full includes everything, but if you used BasicTeX or something is missing:
+MacTeX Full includes everything, but if something is missing:
 ```bash
 sudo tlmgr update --self
 sudo tlmgr install stmaryrd mdframed tcolorbox pgfplots tikz-cd siunitx systeme
 ```
 
-**Skim not reloading:**
-Make sure "Reload automatically" is checked in Skim > Settings > Sync.
+**PDF not showing in VS Code:**
+Press `Cmd + Shift + P`, type `latex pdf`, and click **"LaTeX Workshop: View LaTeX PDF file"**.
 
 **Inkscape export not working:**
 Make sure you're using Inkscape 1.0+ (the command-line flags changed from older versions). Check with `inkscape --version`.
 
 ---
 
-## Setup on Other Platforms
+## Windows Setup (VS Code)
 
-<details>
-<summary><b>Ubuntu/Debian</b></summary>
+### Step 1: Install MiKTeX (LaTeX compiler)
+
+1. Go to [https://miktex.org/download](https://miktex.org/download)
+2. Download the Windows installer
+3. Run the installer. When asked, select **"Install missing packages on-the-fly: Yes"**
+4. Finish the installation
+
+### Step 2: Install Perl (required by latexmk)
+
+1. Go to [https://strawberryperl.com/](https://strawberryperl.com/)
+2. Download and install the latest version
+3. Restart your computer after installing
+
+### Step 3: Install latexmk
+
+Open **Command Prompt** or **PowerShell** and run:
 
 ```bash
+miktex-console
+```
+
+This opens the MiKTeX Console. Go to **Packages**, search for `latexmk`, and install it. Then close the console.
+
+Or from the command line:
+
+```bash
+mpm --install=latexmk
+```
+
+Verify:
+
+```bash
+pdflatex --version
+latexmk --version
+```
+
+### Step 4: Install Git
+
+1. Go to [https://git-scm.com/download/win](https://git-scm.com/download/win)
+2. Download and install. Use all the default options.
+3. Restart your terminal after installing.
+
+Verify:
+
+```bash
+git --version
+```
+
+### Step 5: Install VS Code
+
+1. Go to [https://code.visualstudio.com/](https://code.visualstudio.com/)
+2. Download and install the Windows version
+3. Open VS Code
+
+### Step 6: Install LaTeX Workshop extension
+
+1. Open VS Code
+2. Press `Ctrl + Shift + X` to open Extensions
+3. Search for **"LaTeX Workshop"** by James Yu
+4. Click **Install**
+
+### Step 7: Clone this repository
+
+Open a terminal in VS Code (`Ctrl + ~`) and run:
+
+```bash
+cd %USERPROFILE%\Documents
+git clone https://github.com/Jose-Gael-Cruz-Lopez/Gilles-Castel-s-Lecture-Notes-Math-Science-.git
+```
+
+Then open it in VS Code:
+
+```bash
+code "%USERPROFILE%\Documents\Gilles-Castel-s-Lecture-Notes-Math-Science-"
+```
+
+### Step 8: Compile and view
+
+1. Open `course-template\master.tex`
+2. Press `Ctrl + S` to save/compile
+3. Press `Ctrl + Shift + P`, type `latex pdf`, click **"LaTeX Workshop: View LaTeX PDF file"**
+4. The PDF opens in a side tab. It updates automatically on every save.
+
+### Step 9: Add the VS Code settings
+
+Press `Ctrl + Shift + P`, type `settings json`, open **User Settings (JSON)**, and add the settings from the [VS Code Settings section](#vs-code-settings-for-latex-recommended) above.
+
+### Step 10: Install Inkscape (optional)
+
+Download from [https://inkscape.org/release/](https://inkscape.org/release/) and install.
+
+### Troubleshooting (Windows)
+
+**`pdflatex is not recognized`:**
+Make sure MiKTeX's `bin` folder is on your PATH. Open System Properties > Environment Variables > Path and add `C:\Program Files\MiKTeX\miktex\bin\x64\` (or wherever MiKTeX installed).
+
+**Missing packages:**
+If MiKTeX asks to install packages, click **Yes/Install**. You set "install on-the-fly" during setup, so this should be automatic.
+
+**`latexmk is not recognized`:**
+Make sure you installed Strawberry Perl (Step 2) and latexmk (Step 3). Restart your terminal.
+
+---
+
+## Ubuntu/Debian Setup (VS Code)
+
+### Step 1: Update your system
+
+Open a terminal (`Ctrl + Alt + T`) and run:
+
+```bash
+sudo apt update && sudo apt upgrade -y
+```
+
+### Step 2: Install LaTeX
+
+```bash
+sudo apt install -y texlive-full latexmk
+```
+
+This is a large download (~3-5 GB). Wait for it to finish.
+
+Verify:
+
+```bash
+pdflatex --version
+latexmk --version
+```
+
+### Step 3: Install Git
+
+```bash
+sudo apt install -y git
+```
+
+Verify:
+
+```bash
+git --version
+```
+
+### Step 4: Install VS Code
+
+```bash
+sudo apt install -y wget gpg
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" | sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
+rm -f packages.microsoft.gpg
 sudo apt update
-sudo apt install texlive-full latexmk inkscape
-cd course-template && make
+sudo apt install -y code
 ```
-Use Zathura (`sudo apt install zathura`) as your PDF viewer -- it auto-reloads on file change.
-</details>
 
-<details>
-<summary><b>Fedora</b></summary>
+Or download from [https://code.visualstudio.com/](https://code.visualstudio.com/).
+
+### Step 5: Install LaTeX Workshop extension
 
 ```bash
-sudo dnf install texlive-scheme-full latexmk inkscape
-cd course-template && make
+code --install-extension James-Yu.latex-workshop
 ```
-</details>
 
-<details>
-<summary><b>Windows</b></summary>
+### Step 6: Clone this repository
 
-1. Install [MiKTeX](https://miktex.org/download) or [TeX Live](https://tug.org/texlive/windows.html)
-2. Make sure `pdflatex` and `latexmk` are on your PATH
-3. Install [Inkscape](https://inkscape.org) for figures
-4. Use [SumatraPDF](https://www.sumatrapdfreader.org) as your viewer (auto-reloads)
-5. Compile: `pdflatex -shell-escape master.tex` (run twice)
-</details>
+```bash
+cd ~/Documents
+git clone https://github.com/Jose-Gael-Cruz-Lopez/Gilles-Castel-s-Lecture-Notes-Math-Science-.git
+```
+
+### Step 7: Open, compile, and view
+
+```bash
+code ~/Documents/Gilles-Castel-s-Lecture-Notes-Math-Science-
+```
+
+1. Open `course-template/master.tex`
+2. Press `Ctrl + S` to compile
+3. Press `Ctrl + Shift + P`, type `latex pdf`, click **"LaTeX Workshop: View LaTeX PDF file"**
+4. Add the VS Code settings from the [VS Code Settings section](#vs-code-settings-for-latex-recommended) above
+
+### Step 8: Install Inkscape (optional)
+
+```bash
+sudo apt install -y inkscape
+```
 
 ---
 
@@ -213,21 +493,14 @@ cd course-template && make
 
 ```
 course-template/
-├── master.tex          # Main document — compile this
-├── preamble.tex        # All packages, macros, environments
+├── master.tex          # Main document — compile this file
+├── preamble.tex        # All packages, macros, and environments
 ├── lec_01.tex          # Lecture 1 (example with all features)
 ├── figures/            # Place Inkscape SVGs here
 │   └── .gitkeep
 ├── Makefile            # make / make watch / make clean / make figures
 ├── .latexmkrc          # latexmk configuration
-└── .gitignore           # Ignores build artifacts
-```
-
-**To create a new course**, copy the entire `course-template/` directory:
-```bash
-cp -r course-template/ my-algebra-course/
-cd my-algebra-course/
-# Edit master.tex, start writing lec_01.tex, etc.
+└── .gitignore          # Ignores build artifacts
 ```
 
 ---
@@ -311,12 +584,15 @@ These render inside a frame and are auto-numbered per section:
 
 ## Diagrams
 
-### Option 1: TikZ (programmatic, in-line)
+There are two ways to create diagrams: TikZ (code you type in your `.tex` file) and Inkscape (visual drawing tool). You can use either or both.
 
-TikZ diagrams live directly in your `.tex` files. The template preloads common TikZ libraries. Examples are in `lec_01.tex`.
+### Option 1: TikZ (code-based diagrams)
+
+TikZ diagrams live directly in your `.tex` files. The template preloads all common TikZ libraries. Full working examples are in `lec_01.tex`.
 
 **Function plot:**
 ```latex
+\begin{center}
 \begin{tikzpicture}
     \begin{axis}[
         axis lines=middle,
@@ -326,6 +602,7 @@ TikZ diagrams live directly in your `.tex` files. The template preloads common T
         \addplot[blue, thick]{x^2};
     \end{axis}
 \end{tikzpicture}
+\end{center}
 ```
 
 **Commutative diagram:**
@@ -340,16 +617,22 @@ TikZ diagrams live directly in your `.tex` files. The template preloads common T
 
 **Geometric figure:**
 ```latex
+\begin{center}
 \begin{tikzpicture}
     \coordinate (A) at (0,0);
     \coordinate (B) at (4,0);
     \coordinate (C) at (1.5,3);
     \draw[thick] (A) -- (B) -- (C) -- cycle;
+    \node[below left] at (A) {$A$};
+    \node[below right] at (B) {$B$};
+    \node[above] at (C) {$C$};
 \end{tikzpicture}
+\end{center}
 ```
 
 **Vector field:**
 ```latex
+\begin{center}
 \begin{tikzpicture}
     \foreach \x in {-2,-1,0,1,2} {
         \foreach \y in {-2,-1,0,1,2} {
@@ -358,127 +641,183 @@ TikZ diagrams live directly in your `.tex` files. The template preloads common T
             \draw[->, blue] (\x,\y) -- +(\vx,\vy);
         }
     }
+    \draw[thick, ->] (-3,0) -- (3,0) node[right] {$x$};
+    \draw[thick, ->] (0,-3) -- (0,3) node[above] {$y$};
 \end{tikzpicture}
+\end{center}
 ```
 
-### Option 2: Inkscape (hand-drawn, visual)
+### Option 2: Inkscape (hand-drawn diagrams)
 
-This is Castel's preferred method for complex figures drawn during lectures. It produces SVG figures with LaTeX-rendered text.
+This is Castel's preferred method for complex figures drawn during lectures. You draw in Inkscape (a free vector graphics app), and the text in your figures is rendered by LaTeX so the fonts match your document.
 
-#### Setup
+#### How it works
 
-1. **Install Inkscape:**
-   ```bash
-   # Ubuntu/Debian
-   sudo apt install inkscape
+1. **Draw** your figure in Inkscape and save it as `figures/my-diagram.svg`
+2. **Export** it to PDF+LaTeX (this creates two files: `my-diagram.pdf` for the graphics and `my-diagram.pdf_tex` for the text)
+3. **Include** it in your lecture file with the `\incfig` command
 
-   # macOS
-   brew install --cask inkscape
+#### Exporting from Inkscape
 
-   # Windows: download from https://inkscape.org
-   ```
+Export a single figure from the terminal:
 
-2. **Install the figure manager** (optional but recommended):
-   ```bash
-   pip install inkscape-figures
-   ```
+```bash
+inkscape figures/my-diagram.svg \
+    --export-area-drawing \
+    --export-dpi 300 \
+    --export-type=pdf \
+    --export-latex \
+    --export-filename=figures/my-diagram.pdf
+```
 
-#### Workflow
+Or export all figures at once:
 
-1. **Create a figure** in Inkscape and save as `figures/my-diagram.svg`.
+```bash
+make figures
+```
 
-2. **Export to PDF+LaTeX** (so LaTeX renders the text):
-   ```bash
-   # Single figure
-   inkscape figures/my-diagram.svg \
-       --export-area-drawing \
-       --export-dpi 300 \
-       --export-type=pdf \
-       --export-latex \
-       --export-filename=figures/my-diagram.pdf
+#### Including in your lecture file
 
-   # All figures at once
-   make figures
-   ```
-   This produces `my-diagram.pdf` (graphics) and `my-diagram.pdf_tex` (text positioning).
-
-3. **Include in your lecture file:**
-   ```latex
-   \begin{figure}[ht]
-       \centering
-       \incfig{my-diagram}
-       \caption{My hand-drawn diagram.}
-       \label{fig:my-diagram}
-   \end{figure}
-   ```
+```latex
+\begin{figure}[ht]
+    \centering
+    \incfig{my-diagram}
+    \caption{My hand-drawn diagram.}
+    \label{fig:my-diagram}
+\end{figure}
+```
 
 #### Tips for Inkscape figures
 
-- Use **LaTeX math** in text objects (e.g., type `$\alpha$` in Inkscape).
-  The `--export-latex` flag makes LaTeX render this text, so fonts match.
-- Keep filenames lowercase with hyphens: `riemann-surface.svg`.
-- The `\incfig` command looks in `./figures/` for the `.pdf_tex` file.
+- Type LaTeX math directly in Inkscape text objects (e.g., `$\alpha$`, `$\int_0^1 f(x)\,dx$`). The export process makes LaTeX render this text, so fonts match your document perfectly.
+- Keep filenames lowercase with hyphens: `riemann-surface.svg`, `group-action.svg`.
+- The `\incfig{name}` command looks in `./figures/` for `name.pdf_tex`.
+- Install `pip install inkscape-figures` for a helper tool that automates creating and opening figures.
 
 ---
 
-## Tips for Fast Note-Taking
+## VS Code Snippets for Fast Note-Taking
 
-### Editor integration
+Snippets let you type a short trigger (like `thm`) and expand it into a full LaTeX environment. In VS Code:
 
-Castel used Vim with [vimtex](https://github.com/lervag/vimtex) and [UltiSnips](https://github.com/SirVer/ultisnips) for snippet expansion. The same approach works with:
+1. Press `Cmd + Shift + P` (macOS) or `Ctrl + Shift + P` (Windows/Linux)
+2. Type `snippets` and click **"Snippets: Configure User Snippets"**
+3. Select **"latex"** (or "latex.json")
+4. Paste the following snippets inside the `{}`:
 
-- **Vim/Neovim:** vimtex + UltiSnips or LuaSnip
-- **VS Code:** [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) extension with custom snippets
-- **Emacs:** AUCTeX + YASnippet
-
-### Example snippets (UltiSnips syntax)
-
+```json
+{
+    "Definition": {
+        "prefix": "def",
+        "body": [
+            "\\begin{definition}",
+            "\t$0",
+            "\\end{definition}"
+        ],
+        "description": "Definition environment"
+    },
+    "Theorem": {
+        "prefix": "thm",
+        "body": [
+            "\\begin{theorem}",
+            "\t$0",
+            "\\end{theorem}"
+        ],
+        "description": "Theorem environment"
+    },
+    "Proof": {
+        "prefix": "prf",
+        "body": [
+            "\\begin{proof}",
+            "\t$0",
+            "\\end{proof}"
+        ],
+        "description": "Proof environment"
+    },
+    "Lemma": {
+        "prefix": "lem",
+        "body": [
+            "\\begin{lemma}",
+            "\t$0",
+            "\\end{lemma}"
+        ],
+        "description": "Lemma environment"
+    },
+    "Example": {
+        "prefix": "eg",
+        "body": [
+            "\\begin{eg}",
+            "\t$0",
+            "\\end{eg}"
+        ],
+        "description": "Example environment"
+    },
+    "Remark": {
+        "prefix": "rmk",
+        "body": [
+            "\\begin{remark}",
+            "\t$0",
+            "\\end{remark}"
+        ],
+        "description": "Remark environment"
+    },
+    "Fraction": {
+        "prefix": "frac",
+        "body": "\\frac{$1}{$2}$0",
+        "description": "Fraction"
+    },
+    "Align": {
+        "prefix": "ali",
+        "body": [
+            "\\begin{align}",
+            "\t$0",
+            "\\end{align}"
+        ],
+        "description": "Align environment"
+    },
+    "Figure (Inkscape)": {
+        "prefix": "fig",
+        "body": [
+            "\\begin{figure}[ht]",
+            "\t\\centering",
+            "\t\\incfig{$1}",
+            "\t\\caption{$2}",
+            "\t\\label{fig:$1}",
+            "\\end{figure}"
+        ],
+        "description": "Inkscape figure"
+    },
+    "TikZ Picture": {
+        "prefix": "tikz",
+        "body": [
+            "\\begin{center}",
+            "\\begin{tikzpicture}",
+            "\t$0",
+            "\\end{tikzpicture}",
+            "\\end{center}"
+        ],
+        "description": "TikZ picture"
+    },
+    "Lecture Header": {
+        "prefix": "lec",
+        "body": "\\lecture{$1}{$2}{$3}",
+        "description": "Lecture header"
+    },
+    "New Lecture File": {
+        "prefix": "newlec",
+        "body": [
+            "\\lecture{${1:1}}{${2:Mon 03 Feb 2025 10:00}}{${3:Topic}}",
+            "",
+            "\\section{${4:First Section}}",
+            "",
+            "$0"
+        ],
+        "description": "New lecture file starter"
+    }
+}
 ```
-# Fraction: type "// " to get \frac{}{}
-snippet // "Fraction" iA
-\\frac{$1}{$2}$0
-endsnippet
 
-# Subscript: type "x1" to get x_1
-snippet '([A-Za-z])(\d)' "auto subscript" wrA
-`!p snip.rv = match.group(1)`_`!p snip.rv = match.group(2)`
-endsnippet
-
-# Environment: type "beg" to get \begin{}...\end{}
-snippet beg "begin/end environment" bA
-\\begin{$1}
-    $0
-\\end{$1}
-endsnippet
-
-# Definition: type "def" to get definition environment
-snippet def "Definition" bA
-\\begin{definition}
-    $0
-\\end{definition}
-endsnippet
-
-# Theorem: type "thm" to get theorem environment
-snippet thm "Theorem" bA
-\\begin{theorem}
-    $0
-\\end{theorem}
-endsnippet
-```
-
-See [Castel's full snippet list](https://castel.dev/post/lecture-notes-1/) for 100+ more.
-
-### Compilation workflow
-
-Use `make watch` (or `latexmk -pdf -pvc master.tex`) to auto-recompile on save. Pair this with a PDF viewer that auto-refreshes:
-
-- **Linux:** Zathura (`zathura master.pdf`) — reloads on file change
-- **macOS:** Skim (set to auto-reload in preferences)
-- **VS Code:** LaTeX Workshop's built-in PDF viewer
-
-### Recommended layout
-
-Split your screen: editor on the left, PDF viewer on the right. As you type and save, the PDF updates in real time.
+Now when you type `thm` and press `Tab`, it expands into a full theorem environment. Type `def` + `Tab` for a definition, `tikz` + `Tab` for a TikZ picture, etc.
 
 ---
 
@@ -486,6 +825,6 @@ Split your screen: editor on the left, PDF viewer on the right. As you type and 
 
 This template is adapted from [Gilles Castel's university setup](https://github.com/gillescastel/university-setup). His blog posts explain the full workflow in detail:
 
-- [Lecture notes 1: snippets](https://castel.dev/post/lecture-notes-1/)
+- [Lecture notes 1: LaTeX snippets](https://castel.dev/post/lecture-notes-1/)
 - [Lecture notes 2: Inkscape figures](https://castel.dev/post/lecture-notes-2/)
 - [Lecture notes 3: document structure](https://castel.dev/post/lecture-notes-3/)
