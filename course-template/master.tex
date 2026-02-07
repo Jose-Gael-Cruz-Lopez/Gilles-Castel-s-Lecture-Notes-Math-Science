@@ -18,8 +18,22 @@
 
 \begin{document}
 
-\maketitle
+% --- Title page (centered) ---
+\makeatletter
+\begin{titlepage}
+    \centering
+    \vspace*{\fill}
+    {\Huge\bfseries \@title \par}
+    \vspace{1.5cm}
+    {\Large \@author \par}
+    \vspace{1cm}
+    {\large \@date \par}
+    \vspace*{\fill}
+\end{titlepage}
+\makeatother
+
 \tableofcontents
+\clearpage
 
 % Include your lecture files here.
 % Add new lectures as: \input{lec_02.tex}, \input{lec_03.tex}, etc.

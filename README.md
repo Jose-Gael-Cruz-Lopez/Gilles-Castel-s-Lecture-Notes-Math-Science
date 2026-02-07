@@ -232,11 +232,7 @@ This repository includes **three layers of protection** so compilation always wo
 2. **`course-template/.vscode/settings.json`** — if you open the `course-template/` folder directly, this file configures LaTeX Workshop.
 3. **`.vscode/settings.json`** — if you open the repo root folder directly, this file configures LaTeX Workshop.
 
-All three use the full macOS path `/Library/TeX/texbin/pdflatex` so VS Code can always find it.
-
-**If you're on Windows or Linux**, open any of these files and change the `command` values:
-- **Windows (MiKTeX):** change `/Library/TeX/texbin/pdflatex` to `pdflatex`
-- **Linux:** change `/Library/TeX/texbin/pdflatex` to `pdflatex`
+All three use `bash -l -c "pdflatex ..."` instead of calling `pdflatex` directly. The `-l` flag makes bash load your login profile, which includes the LaTeX PATH. This works on **macOS, Linux, and Windows (Git Bash)** with zero configuration.
 
 ---
 
@@ -363,8 +359,6 @@ Then open the workspace file — this auto-configures everything:
 code "%USERPROFILE%\Documents\Gilles-Castel-s-Lecture-Notes-Math-Science-\lecture-notes.code-workspace"
 ```
 
-**Important (Windows only):** Open `course-template\.vscode\settings.json` and change both `command` paths from `/Library/TeX/texbin/pdflatex` to `pdflatex` and `/Library/TeX/texbin/latexmk` to `latexmk`.
-
 ### Step 8: Compile and view
 
 1. Open `master.tex` in the sidebar
@@ -461,8 +455,6 @@ Open the workspace file (this auto-configures LaTeX Workshop):
 code ~/Documents/Gilles-Castel-s-Lecture-Notes-Math-Science-/lecture-notes.code-workspace
 ```
 
-**Important (Linux only):** Open `.vscode/settings.json` and change both `command` paths from `/Library/TeX/texbin/pdflatex` to `pdflatex` and `/Library/TeX/texbin/latexmk` to `latexmk`.
-
 Then:
 1. Open `master.tex` in the sidebar
 2. Press `Ctrl + S` to compile
@@ -488,6 +480,7 @@ sudo apt install -y inkscape
     ├── master.tex               # Main document — compile this file
     ├── preamble.tex             # All packages, macros, and environments
     ├── lec_01.tex               # Lecture 1 (example with all features)
+    ├── build.sh                 # Standalone compile script (macOS/Linux)
     ├── figures/                 # Place Inkscape SVGs here
     │   └── .gitkeep
     ├── Makefile                 # make / make watch / make clean / make figures

@@ -74,7 +74,6 @@
 \usepackage{systeme}
 
 % --- Theorem-like environments (boxed) ---
-\makeatother
 \usepackage{mdframed}
 \mdfsetup{skipabove=1em,skipbelow=0em}
 
@@ -187,8 +186,10 @@
     \import{./figures/}{#1.pdf_tex}
 }
 
-% Suppress PDF page group warnings
-\pdfsuppresswarningpagegroup=1
+% Suppress PDF page group warnings (only if the primitive exists)
+\ifdefined\pdfsuppresswarningpagegroup
+  \pdfsuppresswarningpagegroup=1
+\fi
 
 % --- TikZ support ---
 \usepackage{tikz}
