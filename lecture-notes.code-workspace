@@ -6,19 +6,15 @@
     ],
     "settings": {
         "latex-workshop.latex.autoBuild.run": "onSave",
-        "latex-workshop.latex.external.build.command": "bash",
-        "latex-workshop.latex.external.build.args": [
-            "./build.sh"
-        ],
         "latex-workshop.latex.recipes": [
             {
-                "name": "pdflatex x2 (shell)",
-                "tools": ["pdflatex-shell", "pdflatex-shell"]
+                "name": "pdflatex x2",
+                "tools": ["pdflatex", "pdflatex"]
             }
         ],
         "latex-workshop.latex.tools": [
             {
-                "name": "pdflatex-shell",
+                "name": "pdflatex",
                 "command": "bash",
                 "args": [
                     "-l",
@@ -28,6 +24,7 @@
             }
         ],
         "latex-workshop.view.pdf.viewer": "tab",
+        "latex-workshop.latex.autoBuild.cleanAndRetry.enabled": true,
         "editor.wordWrap": "on",
         "editor.minimap.enabled": false,
         "files.associations": {
