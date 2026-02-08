@@ -111,8 +111,10 @@
   \thm@preskip=\parskip \thm@postskip=0pt
 }
 
-% --- Lecture header command ---
+% --- Lecture/unit header command ---
 % Usage: \lecture{1}{Mon 03 Feb 2025 10:00}{Introduction to Group Theory}
+% The heading shows just "#1: #3" (no "Lecture" prefix), so you can use it
+% for lectures, units, chapters, problem sets, etc.
 \usepackage{xifthen}
 \def\testdateparts#1{\dateparts#1\relax}
 \def\dateparts#1 #2 #3 #4 #5\relax{
@@ -122,10 +124,12 @@
 \def\@lecture{}%
 \newcommand{\lecture}[3]{
     \ifthenelse{\isempty{#3}}{%
-        \def\@lecture{Lecture #1}%
+        \def\@lecture{#1}%
     }{%
-        \def\@lecture{Lecture #1: #3}%
+        \def\@lecture{#1: #3}%
     }%
+    \setcounter{section}{0}%
+    \stepcounter{chapter}%
     \subsection*{\@lecture}
     \marginpar{\small\textsf{\mbox{#2}}}
 }
