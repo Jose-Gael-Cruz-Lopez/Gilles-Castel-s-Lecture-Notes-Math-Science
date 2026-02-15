@@ -6,7 +6,8 @@
 
 % --- Page layout ---
 % Use wide margins so text fills the page (1 inch on all sides)
-\usepackage[margin=1in]{geometry}
+% headheight=15pt fixes fancyhdr warning; marginparwidth fixes todonotes warning
+\usepackage[margin=1in, headheight=15pt, marginparwidth=2.5cm]{geometry}
 
 % --- Core packages ---
 \usepackage[utf8]{inputenc}
@@ -118,7 +119,7 @@
 \usepackage{xifthen}
 \def\testdateparts#1{\dateparts#1\relax}
 \def\dateparts#1 #2 #3 #4 #5\relax{
-    \marginpar{\small\textsf{\mbox{#1 #2 #3 #5}}}
+    \marginpar{\small\textsf{\parbox{2.3cm}{\raggedright #1 #2 #3 #5}}}
 }
 
 \def\@lecture{}%
@@ -138,10 +139,11 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 
-\fancyhead[RO,LE]{\@lecture}
-\fancyhead[RE,LO]{}
-\fancyfoot[RO,LE]{\thepage}
-\fancyfoot[RE,LO]{}
+% Use only RO/LO (oneside-compatible) instead of RO/LE/RE/LO
+\fancyhead[R]{\@lecture}
+\fancyhead[L]{}
+\fancyfoot[R]{\thepage}
+\fancyfoot[L]{}
 \fancyfoot[C]{\leftmark}
 
 \makeatother

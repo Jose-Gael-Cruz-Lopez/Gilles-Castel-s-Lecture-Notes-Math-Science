@@ -19,6 +19,8 @@
 \begin{document}
 
 % --- Title page (centered) ---
+% Use alph numbering to avoid duplicate page.1 warning with hyperref
+\pagenumbering{alph}
 \makeatletter
 \begin{titlepage}
     \centering
@@ -32,8 +34,10 @@
 \end{titlepage}
 \makeatother
 
+\pagenumbering{roman}
 \tableofcontents
 \clearpage
+\pagenumbering{arabic}
 
 % Include your lecture files here.
 % Add new lectures as: \input{lec_02.tex}, \input{lec_03.tex}, etc.

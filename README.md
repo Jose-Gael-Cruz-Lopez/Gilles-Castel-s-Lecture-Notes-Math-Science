@@ -13,6 +13,36 @@ A complete LaTeX setup for taking beautiful math/science lecture notes in VS Cod
 
 ---
 
+## ⚡ Quick Start (TL;DR)
+
+**If you already have VS Code, LaTeX, and Git installed:**
+
+```bash
+cd ~/Documents
+git clone https://github.com/Jose-Gael-Cruz-Lopez/Gilles-Castel-s-Lecture-Notes-Math-Science-.git
+open ~/Documents/Gilles-Castel-s-Lecture-Notes-Math-Science-/lecture-notes.code-workspace
+```
+
+Then in VS Code:
+1. Click `master.tex` in the sidebar
+2. Press `Cmd + S` (save) — this compiles the PDF
+3. Click the "View LaTeX PDF" button (top-right) to see the preview
+
+**That's it.** The PDF updates automatically every time you save.
+
+---
+
+## 🚨 Common Issues (Check These First)
+
+| Issue | Quick Fix |
+|-------|-----------|
+| `spawn pdflatex ENOENT` | You opened a folder instead of `lecture-notes.code-workspace`. Close VS Code, double-click the workspace file. |
+| `command not found: pdflatex` | Close terminal, open a new one. If still broken, see Step 3 in the full guide. |
+| PDF not showing | Press `Cmd + Shift + P`, type "latex pdf", click "LaTeX Workshop: View LaTeX PDF file" |
+| Small centered text | Update to the latest version: `cd ~/Documents/Gilles-Castel-s-Lecture-Notes-Math-Science- && git pull` |
+
+---
+
 ## macOS Setup (Primary — VS Code)
 
 Follow every step in order. Do not skip any step.
@@ -144,9 +174,15 @@ cd ~/Documents
 git clone https://github.com/Jose-Gael-Cruz-Lopez/Gilles-Castel-s-Lecture-Notes-Math-Science-.git
 ```
 
-### Step 7: Open the project in VS Code
+### Step 7: Open the project in VS Code ⚠️ CRITICAL
 
-**IMPORTANT:** Do NOT just open a random folder. Open the **workspace file** — this is what makes auto-compilation and PDF preview work:
+> **⚠️ WARNING: Do NOT use "Open Folder" in VS Code.**
+> 
+> If you open the folder directly, auto-compilation will break and you'll get `spawn pdflatex ENOENT` errors.
+> 
+> **You MUST open the workspace file.**
+
+Open the workspace file — this is what makes auto-compilation and PDF preview work:
 
 ```bash
 open ~/Documents/Gilles-Castel-s-Lecture-Notes-Math-Science-/lecture-notes.code-workspace
