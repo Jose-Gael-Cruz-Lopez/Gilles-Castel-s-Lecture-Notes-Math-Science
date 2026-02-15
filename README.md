@@ -15,15 +15,24 @@ A complete LaTeX setup for taking beautiful math/science lecture notes in VS Cod
 
 ## ⚡ Quick Start (TL;DR)
 
-**If you already have VS Code, LaTeX, and Git installed:**
+**If you already have VS Code/Cursor, LaTeX, and Git installed:**
 
 ```bash
 cd ~/Documents
 git clone https://github.com/Jose-Gael-Cruz-Lopez/Gilles-Castel-s-Lecture-Notes-Math-Science-.git
+```
+
+**For VS Code:**
+```bash
 open ~/Documents/Gilles-Castel-s-Lecture-Notes-Math-Science-/lecture-notes.code-workspace
 ```
 
-Then in VS Code:
+**For Cursor:**
+```bash
+cursor ~/Documents/Gilles-Castel-s-Lecture-Notes-Math-Science-/lecture-notes.code-workspace
+```
+
+Then:
 1. Click `master.tex` in the sidebar
 2. Press `Cmd + S` (save) — this compiles the PDF
 3. Click the "View LaTeX PDF" button (top-right) to see the preview
@@ -36,10 +45,11 @@ Then in VS Code:
 
 | Issue | Quick Fix |
 |-------|-----------|
-| `spawn pdflatex ENOENT` | You opened a folder instead of `lecture-notes.code-workspace`. Close VS Code, double-click the workspace file. |
+| `spawn pdflatex ENOENT` | You opened a folder instead of `lecture-notes.code-workspace`. Close VS Code/Cursor, open the workspace file. |
 | `command not found: pdflatex` | Close terminal, open a new one. If still broken, see Step 3 in the full guide. |
 | PDF not showing | Press `Cmd + Shift + P`, type "latex pdf", click "LaTeX Workshop: View LaTeX PDF file" |
 | Small centered text | Update to the latest version: `cd ~/Documents/Gilles-Castel-s-Lecture-Notes-Math-Science- && git pull` |
+| `cursor: command not found` | Cursor isn't in your PATH. Open Cursor, press `Cmd + Shift + P`, type "shell command", click "Install 'cursor' command in PATH" |
 
 ---
 
@@ -248,6 +258,46 @@ Verify:
 ```bash
 inkscape --version
 ```
+
+---
+
+## 🚀 Cursor Setup (Alternative to VS Code)
+
+**Cursor works exactly like VS Code** for LaTeX — it's a VS Code fork with AI features. All the setup steps are identical except for the app name.
+
+### If you prefer Cursor over VS Code:
+
+**Steps 1-6:** Same as VS Code (Homebrew, Git, MacTeX)
+
+**Step 7: Install the LaTeX Workshop extension in Cursor**
+
+```bash
+cursor --install-extension James-Yu.latex-workshop
+```
+
+Or manually:
+1. Open Cursor
+2. Press `Cmd + Shift + X` for Extensions
+3. Search "LaTeX Workshop" by James Yu
+4. Click Install
+
+**Step 8: Open the workspace in Cursor**
+
+⚠️ **Same warning as VS Code: Open the workspace file, NOT a folder.**
+
+```bash
+cursor ~/Documents/Gilles-Castel-s-Lecture-Notes-Math-Science-/lecture-notes.code-workspace
+```
+
+Or in Finder, right-click `lecture-notes.code-workspace` → Open With → Cursor.
+
+**Step 9: Compile and view**
+
+1. Open `master.tex`
+2. Press `Cmd + S` to compile
+3. Click "View LaTeX PDF" (top-right) or press `Cmd + Shift + P` → "LaTeX Workshop: View LaTeX PDF file"
+
+**Everything else is identical to VS Code.** Snippets, PDF preview, auto-compilation — all work the same.
 
 ### Step 12: Create a new course (optional)
 
