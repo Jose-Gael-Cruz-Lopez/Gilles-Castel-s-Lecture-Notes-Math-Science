@@ -29,6 +29,7 @@
         "editor.minimap.enabled": false,
         "files.associations": {
             "*.tex": "latex"
-        }
+        },
+        "files.autoSave": "onFocusChange"
     }
 }
